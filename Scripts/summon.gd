@@ -4,18 +4,16 @@ class_name Summon
 
 @export var sprite: Sprite2D
 @export var hit_audio: AudioStreamPlayer2D
-@export var nav_agent: NavigationAgent2D
-@export var player_detector: Area2D
-@export var hero_detector: Area2D
+@export var death_audio: AudioStreamPlayer2D
 @export var animation_player: AnimationPlayer
-@export var summon_mana_decrement: int = 15
+@export var summon_mana_decrement: int = 25
 @export var health = 50.0
 @export var speed = 50.0
 
-var close_distance = Vector2(randi_range(100, 125), randi_range(100, 125))
+@onready var player: CharacterBody2D = get_tree().get_first_node_in_group("Player")
+@onready var hero: CharacterBody2D = get_tree().get_first_node_in_group("Hero")
 
-var player = null
-var hero = null
+var close_distance = Vector2(randi_range(100, 125), randi_range(100, 125))
 
 var damage = 1
 
@@ -36,7 +34,8 @@ func _physics_process(delta):
 	if dying:
 		sprite.modulate.a = move_toward(sprite.modulate.a, 0, 0.15)
 		if sprite.modulate.a == 0:
-			queue_free()
+			pass
+			#queue_free()
 	move_and_slide()
 
 func handle_wander():
@@ -58,26 +57,31 @@ func _on_velocity_computed(velocity):
 	pass
 
 func kill():
-	if hit_audio and can_die:
+	if death_audio and can_die:
 		can_die = false
 		dying = true
 		
-		hit_audio.pitch_scale = randf_range(0.9, 1.1)
-		if hit_audio.playing == false:
-			hit_audio.play()
+		death_audio.pitch_scale = randf_range(0.9, 1.1)
+		if death_audio.playing == false:
+			death_audio.play()
+		if death_audio.playing == true:
+			await death_audio.finished
+			player.summons_out.erase(self)
+			queue_free()
 
 func take_damage(damage):
-	print("OWIE")
-	health -= damage
-	hit_audio.pitch_scale = randf_range(0.85, 1.15)
-	hit_audio.play()
-	if health <= 0:
-		kill()
+	if not dying:
+		health -= damage
+		hit_audio.pitch_scale = randf_range(0.8, 1.2)
+		hit_audio.play()
+		if health <= 0:
+			kill()
 
 func _on_player_detector_body_entered(body):
-	if body.is_in_group("Player"):
-		player = body
-		player_detector.set_deferred("monitoring", false)
+#	if body.is_in_group("Player"):
+#		player = body
+#		player_detector.set_deferred("monitoring", false)
+	pass
 
 func _on_hero_detector_body_entered(body):
 	if body.is_in_group("Hero"):

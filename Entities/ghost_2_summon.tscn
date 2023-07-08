@@ -1,6 +1,7 @@
 [gd_scene load_steps=8 format=3 uid="uid://j5vyn8tou7qw"]
 
 [ext_resource type="Texture2D" uid="uid://cgfe3xmra2wcf" path="res://Assets/Sprites and stuff/kenney_tiny-dungeon/Tiles/tile_0121.png" id="2_h4tju"]
+[ext_resource type="AudioStream" uid="uid://lls0sohw7w0x" path="res://Assets/Audio/explosion2.wav" id="3_6cm20"]
 [ext_resource type="AudioStream" uid="uid://b4p2dsk400jlv" path="res://Assets/Audio/hitHurt.wav" id="3_lbwlk"]
 
 [sub_resource type="GDScript" id="GDScript_bn2pm"]
@@ -30,9 +31,6 @@ func _physics_process(delta):
 #	else:
 #		player_sprite.scale.x = -scaleX
 "
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_ln2nq"]
-radius = 500.0
 
 [sub_resource type="Animation" id="Animation_jh80g"]
 length = 0.001
@@ -73,27 +71,18 @@ _data = {
 "bob_anim": SubResource("Animation_83edn")
 }
 
-[node name="ghost2_summon" type="CharacterBody2D" node_paths=PackedStringArray("sprite", "death_audio", "nav_agent", "player_detector", "hero_detector", "animation_player") groups=["Summon"]]
+[node name="ghost2_summon" type="CharacterBody2D" node_paths=PackedStringArray("sprite", "hit_audio", "death_audio", "nav_agent", "player_detector", "hero_detector", "animation_player") groups=["Summon"]]
 collision_layer = 2
 collision_mask = 2
 script = SubResource("GDScript_bn2pm")
 sprite = NodePath("Sprite2D")
-death_audio = NodePath("hit_audio")
-nav_agent = NodePath("NavigationAgent2D")
-player_detector = NodePath("PlayerDetector")
-hero_detector = NodePath("HeroDetector")
+hit_audio = NodePath("hit_audio")
+death_audio = NodePath("death_audio")
+nav_agent = NodePath("")
+player_detector = NodePath("")
+hero_detector = NodePath("")
 animation_player = NodePath("AnimationPlayer")
 summon_mana_decrement = 20
-
-[node name="PlayerDetector" type="Area2D" parent="."]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerDetector"]
-shape = SubResource("CircleShape2D_ln2nq")
-
-[node name="HeroDetector" type="Area2D" parent="."]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="HeroDetector"]
-shape = SubResource("CircleShape2D_ln2nq")
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
 polygon = PackedVector2Array(-20, -35, 20, -35, 30, -25, 35, 0, 40, 5, 40, 35, 35, 40, -35, 40, -40, 35, -40, 5, -35, 0, -30, -25)
@@ -103,17 +92,15 @@ texture_filter = 1
 scale = Vector2(5, 5)
 texture = ExtResource("2_h4tju")
 
-[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
-avoidance_enabled = true
-
 [node name="hit_audio" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("3_lbwlk")
+volume_db = -15.0
+
+[node name="death_audio" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_6cm20")
 volume_db = -15.0
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
 "": SubResource("AnimationLibrary_5vy3n")
 }
-
-[connection signal="body_entered" from="PlayerDetector" to="." method="_on_player_detector_body_entered"]
-[connection signal="body_entered" from="HeroDetector" to="." method="_on_hero_detector_body_entered"]

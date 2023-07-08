@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://bv1o53k32t26p"]
+[gd_scene load_steps=25 format=3 uid="uid://bv1o53k32t26p"]
 
 [ext_resource type="Script" path="res://Scripts/Player/player_controller.gd" id="1_4etcl"]
 [ext_resource type="Script" path="res://Scripts/camera_controller.gd" id="2_1nkwo"]
@@ -6,13 +6,19 @@
 [ext_resource type="Texture2D" uid="uid://6g4tjcvh4g4" path="res://Assets/Sprites and stuff/ghost_icon1.png" id="2_ynumj"]
 [ext_resource type="Texture2D" uid="uid://bwvouix6lnctg" path="res://Assets/Sprites and stuff/ghost_icon2.png" id="3_060uu"]
 [ext_resource type="Texture2D" uid="uid://dlgp4bisaxqoo" path="res://Assets/Sprites and stuff/kenney_tiny-dungeon/Tiles/tile_0130.png" id="3_dgak6"]
+[ext_resource type="Texture2D" uid="uid://dg4k4dtjv6ium" path="res://Assets/Sprites and stuff/healthbar_progress.png" id="3_r3hxd"]
 [ext_resource type="Texture2D" uid="uid://b1ptjj047dcwx" path="res://Assets/Sprites and stuff/bat_icon3.png" id="4_stx2y"]
 [ext_resource type="AudioStream" uid="uid://s6rj2fmtghws" path="res://Assets/Audio/click_sound_footstep2.wav" id="5_gx4em"]
 [ext_resource type="AudioStream" uid="uid://br8aswmmbxs8i" path="res://Assets/Audio/kenney_impact-sounds/Audio/impactBell_heavy_001.ogg" id="5_kq16b"]
+[ext_resource type="FontFile" uid="uid://c6k3w1574l4qh" path="res://Assets/Fonts/MinecraftRegular-Bmg3.otf" id="5_pai7l"]
+[ext_resource type="Texture2D" uid="uid://bxxvhdmqk00fi" path="res://Assets/Sprites and stuff/manabar_progress.png" id="6_c5d8r"]
 [ext_resource type="Shader" path="res://Scripts/Shaders/crosshair_shader.gdshader" id="7_6scfa"]
 [ext_resource type="Texture2D" uid="uid://l8sbf1nhrg61" path="res://Assets/Sprites and stuff/kenney_tiny-dungeon/Tiles/tile_0060.png" id="8_owly8"]
 [ext_resource type="Script" path="res://Scripts/crosshair_controller.gd" id="9_wqgnu"]
+[ext_resource type="AudioStream" uid="uid://b4p2dsk400jlv" path="res://Assets/Audio/hitHurt.wav" id="11_rvhut"]
 [ext_resource type="Texture2D" uid="uid://c1i6buwaeap44" path="res://Assets/Sprites and stuff/arrow.png" id="13_fjv7y"]
+[ext_resource type="AudioStream" uid="uid://lls0sohw7w0x" path="res://Assets/Audio/explosion2.wav" id="14_x6f8c"]
+[ext_resource type="Texture2D" uid="uid://xwss3ii8w1do" path="res://Assets/Sprites and stuff/healthbar_background.png" id="16_ekikr"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_om8xb"]
 shader = ExtResource("7_6scfa")
@@ -83,8 +89,9 @@ _data = {
 }
 
 [node name="Player" type="CharacterBody2D" groups=["Player"]]
+collision_layer = 4
 script = ExtResource("1_4etcl")
-metadata/_edit_horizontal_guides_ = [524.0, 523.0]
+metadata/_edit_horizontal_guides_ = [64.0, 64.0, 584.0, 648.0, 581.0, 68.0]
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -167,6 +174,67 @@ size_flags_stretch_ratio = 0.05
 [node name="Label" type="Label" parent="CanvasLayer/Control/VBoxContainer/VBoxContainer4"]
 layout_mode = 2
 
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer1" type="HBoxContainer" parent="CanvasLayer/Control/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="CanvasLayer/Control/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="SummonsLabel" type="Label" parent="CanvasLayer/Control/HBoxContainer/HBoxContainer2"]
+texture_filter = 1
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 0
+theme_override_colors/font_color = Color(0.478431, 0.415686, 0.443137, 1)
+theme_override_colors/font_outline_color = Color(0.301961, 0.188235, 0.235294, 1)
+theme_override_constants/outline_size = 15
+theme_override_fonts/font = ExtResource("5_pai7l")
+theme_override_font_sizes/font_size = 48
+text = "SUMMONS
+5/5"
+horizontal_alignment = 1
+vertical_alignment = 1
+uppercase = true
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="CanvasLayer/Control/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ManaBar" type="TextureProgressBar" parent="CanvasLayer/Control"]
+texture_filter = 1
+offset_left = 128.0
+offset_top = 68.0
+offset_right = 641.0
+offset_bottom = 156.0
+rotation = 1.5708
+size_flags_horizontal = 3
+fill_mode = 1
+nine_patch_stretch = true
+texture_under = ExtResource("16_ekikr")
+texture_progress = ExtResource("6_c5d8r")
+
+[node name="HealthBar" type="TextureProgressBar" parent="."]
+z_index = 999
+texture_filter = 1
+offset_left = -51.0
+offset_top = -76.0
+offset_right = 52.0
+offset_bottom = -53.0
+value = 100.0
+nine_patch_stretch = true
+texture_under = ExtResource("16_ekikr")
+texture_progress = ExtResource("3_r3hxd")
+
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
 polygon = PackedVector2Array(4, -40, 15, -35, 30, -25, 35, -20, 35, 15, 40, 15, 40, 35, 35, 40, -35, 40, -40, 35, -40, 10, -35, 10, -35, -30, -25, -40)
 
@@ -202,6 +270,14 @@ volume_db = -35.0
 
 [node name="SummonPlayer" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("5_kq16b")
+volume_db = -15.0
+
+[node name="DeathAudio" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("14_x6f8c")
+volume_db = -15.0
+
+[node name="HitAudio" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("11_rvhut")
 volume_db = -15.0
 
 [node name="crosshair" type="Sprite2D" parent="."]

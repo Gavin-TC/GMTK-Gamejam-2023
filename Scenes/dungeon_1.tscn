@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://bv1o53k32t26p" path="res://Entities/player.tscn" id="1_wnre7"]
 [ext_resource type="Texture2D" uid="uid://32wollu4phvq" path="res://Assets/Sprites and stuff/kenney_tiny-dungeon/Tilemap/tilemap_packed.png" id="2_xwv4t"]
-[ext_resource type="PackedScene" uid="uid://bkxc1iqwdybbu" path="res://Entities/hero.tscn" id="3_8hcfv"]
+[ext_resource type="PackedScene" uid="uid://3htl0aku1a6v" path="res://Entities/structure.tscn" id="3_8bouv"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_0ofq6"]
 texture = ExtResource("2_xwv4t")
@@ -424,6 +424,7 @@ sources/0 = SubResource("TileSetAtlasSource_0ofq6")
 
 [node name="Player" parent="." instance=ExtResource("1_wnre7")]
 position = Vector2(1099, 690)
+metadata/_edit_horizontal_guides_ = [524.0, 523.0]
 
 [node name="TileMap" type="TileMap" parent="."]
 texture_filter = 1
@@ -435,5 +436,5 @@ layer_0/tile_data = PackedInt32Array(-65539, 65536, 0, -131069, 196608, 0, -6553
 [node name="EntranceNode" type="Node2D" parent="." groups=["EntranceNode"]]
 position = Vector2(1760, 368)
 
-[node name="Hero" parent="." instance=ExtResource("3_8hcfv")]
-position = Vector2(1769, 534)
+[node name="Structure" parent="." instance=ExtResource("3_8bouv")]
+position = Vector2(1759, 857)

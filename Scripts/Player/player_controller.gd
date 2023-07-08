@@ -12,6 +12,11 @@ extends CharacterBody2D
 @onready var entrance_pointer_node = $EntrancePointerAxis/EntracePointerNode
 @onready var entrance_pointer_sprite = $EntrancePointerAxis/EntracePointerNode/Sprite2D
 @onready var staff_sprite = $PlayerSprite/HandAxis/Hand/StaffSprite
+@onready var death_audio = $DeathAudio
+@onready var hit_audio = $HitAudio
+@onready var healthbar = $HealthBar
+@onready var manabar = $CanvasLayer/Control/ManaBar
+@onready var summons_label = $CanvasLayer/Control/HBoxContainer/HBoxContainer2/SummonsLabel
 
 @onready var ghost1_ui_icon = $CanvasLayer/Control/VBoxContainer/VBoxContainer3/HBoxContainer/HBoxContainer2/TextureRect
 @onready var ghost2_ui_icon = $CanvasLayer/Control/VBoxContainer/VBoxContainer3/HBoxContainer/HBoxContainer2/TextureRect2
@@ -23,6 +28,9 @@ extends CharacterBody2D
 @onready var ghost2_icon_selected = preload("res://Assets/Sprites and stuff/ghost_icon2_selected.png")
 @onready var bat_icon = preload("res://Assets/Sprites and stuff/bat_icon3.png")
 @onready var bat_icon_selected = preload("res://Assets/Sprites and stuff/bat_icon3_selected.png")
+
+@onready var manabar_progress = preload("res://Assets/Sprites and stuff/manabar_progress.png")
+@onready var red_flash = preload("res://Assets/Sprites and stuff/healthbar_progress.png")
 
 #@onready var footstep_sound = "res://Assets/Audio/click_sound_footstep2.wav"
 #@onready var summon_sound = "res://Assets/Audio/kenney_impact-sounds/Audio/impactBell_heavy_001.ogg"
@@ -60,6 +68,11 @@ var can_count = true
 # can a summon be killed
 var can_kill = true
 
+var can_add = true
+
+var can_die = true
+var dying = false
+
 
 func _ready():
 	randomize()
@@ -79,6 +92,21 @@ func _physics_process(delta):
 	handle_summon()
 	handle_summon_kill()
 	handle_entrance_pointer()
+	
+	summons_label.text = str("SUMMONS\n" + str(cur_summons) + "/" + str(max_summons))
+	
+	if summon_mana < 100 and can_add and not Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
+		can_add = false
+		
+		summon_mana += 1
+		print("added")
+		print(summon_mana)
+		
+		await get_tree().create_timer(0.25).timeout
+		can_add = true
+	
+	healthbar.value = health
+	manabar.value = summon_mana
 	
 	velocity.normalized()
 	move_and_slide()
@@ -128,7 +156,7 @@ func handle_summon():
 		selected_summon = 2
 	if Input.is_action_just_pressed("three"):
 		selected_summon = 3
-		
+	
 	match selected_summon:
 		1:
 			summon_instance = ghost_summon.instantiate()
@@ -161,11 +189,21 @@ func handle_summon():
 		summon_player.pitch_scale = randf_range(0.9, 1.1)
 		summon_player.play()
 		
-		if cur_summons < max_summons:			
+		if cur_summons < max_summons and summon_mana - summon_instance.summon_mana_decrement > 0:
 			summon_instance.position = global_position + Vector2(randi_range(-40, 40), randi_range(-40, 40))
 			summons_out.append(summon_instance)
 			get_tree().get_root().add_child(summon_instance)
-		
+			
+			summon_mana -= summon_instance.summon_mana_decrement
+		elif summon_mana < summon_instance.summon_mana_decrement:
+			manabar.texture_progress = red_flash
+			await get_tree().create_timer(footstep_delay / 2).timeout
+			manabar.texture_progress = manabar_progress
+		elif cur_summons == max_summons:
+			summons_label.add_theme_color_override("font_color", "RED")
+			await get_tree().create_timer(footstep_delay / 2).timeout
+			summons_label.add_theme_color_override("font_color", "7a6a71")
+			
 		if not animation_player.is_playing():
 			animation_player.play("staff_anim")
 		
@@ -207,13 +245,24 @@ func handle_entrance_pointer():
 		entrance_pointer_sprite.hide()
 
 func kill():
-	queue_free()
+	if can_die:
+		can_die = false
+		dying = true
+		
+		death_audio.pitch_scale = randf_range(0.9, 1.1)
+		if death_audio.playing == false:
+			death_audio.play()
+		if death_audio.playing == true:
+			await death_audio.finished
+			queue_free()
 
 func take_damage(damage):
-	health -= damage
-	print(health)
-	if health <= 0:
-		kill()
+	if not dying:
+		health -= damage
+		hit_audio.pitch_scale = randf_range(0.8, 1.2)
+		hit_audio.play()
+		if health <= 0:
+			kill()
 
 func _on_area_2d_body_entered(body):
 	print(body)

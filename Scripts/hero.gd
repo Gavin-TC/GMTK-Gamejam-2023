@@ -2,7 +2,6 @@ extends CharacterBody2D
 
 @onready var sprite = $Sprite2D
 @onready var animation_player = $AnimationPlayer
-@onready var raycast = $Sprite2D/Hand/RayCast2D
 
 enum {
 	TARGET_ENEMY,
@@ -32,6 +31,7 @@ func _physics_process(delta):
 	velocity = Vector2.ZERO
 	
 	handle_sprite_direction()
+	detect_summon()
 	
 	match attack_state:
 		ATTACK:
@@ -44,18 +44,17 @@ func _physics_process(delta):
 	
 	match state:
 		TARGET_STRUCTURE:
-			if structure != null:
+			if not structure and not enemy:
 				move(structure, delta)
 		TARGET_ENEMY:
-			if enemy:
-				if is_instance_valid(enemy):
-					targetted = "Summon"
-					move(enemy, delta, true)
-			elif enemy == null and player:
-				targetted = "Player"
-				move(player, delta, true)
+			if enemy and is_instance_valid(enemy) and not enemy.dying:
+				targetted = "ENEMY"
+				move(enemy, delta, true)
+			elif not enemy and structure:
+				state = TARGET_STRUCTURE
 			else:
-				targetted = "NONE"
+				targetted = "PLAYER"
+				move(player, delta, true)
 
 func move(target: CharacterBody2D, delta, aggressive:bool = false):
 	if aggressive:
@@ -78,7 +77,8 @@ func move(target: CharacterBody2D, delta, aggressive:bool = false):
 		else:
 			attack_state = ATTACK
 		
-		$ColorRect.global_position = target_circle
+		# debug
+		$DestinationRect.global_position = target_circle
 			
 		velocity.normalized()
 		move_and_slide()
@@ -105,10 +105,15 @@ func get_circle_position(target: CharacterBody2D):
 func attack():
 	if not animation_player.is_playing():
 		animation_player.play("swing_sword")
-		if enemy and is_instance_valid(enemy):
+		if targetted == "ENEMY" and is_instance_valid(enemy):
 			enemy.take_damage(5)
-		elif player:
+		elif targetted == "PLAYER":
 			player.take_damage(5)
+
+func detect_summon():
+	var summons = []
+	for nodes in get_tree().get_nodes_in_group("Summon"):
+		print(nodes)
 
 func handle_sprite_direction():
 	if velocity.x < 0:
