@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=3 uid="uid://cku2etwsxwjn5"]
 
-[ext_resource type="Script" path="res://Scripts/summon.gd" id="1_qn3tw"]
+[ext_resource type="Script" path="res://Scripts/bat_summon.gd" id="1_tdg74"]
 [ext_resource type="Texture2D" uid="uid://bqjapa64mdr5a" path="res://Assets/Sprites and stuff/kenney_tiny-dungeon/Tiles/tile_0120.png" id="2_a1r6d"]
 [ext_resource type="AudioStream" uid="uid://b4p2dsk400jlv" path="res://Assets/Audio/hitHurt.wav" id="3_k83il"]
 
@@ -46,8 +46,17 @@ _data = {
 "bob_anim": SubResource("Animation_83edn")
 }
 
-[node name="Summon" type="CharacterBody2D"]
-script = ExtResource("1_qn3tw")
+[node name="bat_summon" type="CharacterBody2D" node_paths=PackedStringArray("sprite", "death_audio", "nav_agent", "player_detector", "hero_detector", "animation_player") groups=["Summon"]]
+collision_layer = 2
+collision_mask = 2
+script = ExtResource("1_tdg74")
+sprite = NodePath("Sprite2D")
+death_audio = NodePath("death_audio")
+nav_agent = NodePath("NavigationAgent2D")
+player_detector = NodePath("PlayerDetector")
+hero_detector = NodePath("HeroDetector")
+animation_player = NodePath("AnimationPlayer")
+summon_mana_decrement = 25
 
 [node name="PlayerDetector" type="Area2D" parent="."]
 
@@ -78,3 +87,6 @@ volume_db = -15.0
 libraries = {
 "": SubResource("AnimationLibrary_5vy3n")
 }
+
+[connection signal="body_entered" from="PlayerDetector" to="." method="_on_player_detector_body_entered"]
+[connection signal="body_entered" from="HeroDetector" to="." method="_on_hero_detector_body_entered"]

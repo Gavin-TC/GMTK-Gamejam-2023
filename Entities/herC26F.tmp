@@ -1,0 +1,98 @@
+[gd_scene load_steps=10 format=3 uid="uid://bkxc1iqwdybbu"]
+
+[ext_resource type="Script" path="res://Scripts/hero.gd" id="1_2mf74"]
+[ext_resource type="Texture2D" uid="uid://djexi0dyehs8l" path="res://Assets/Sprites and stuff/kenney_tiny-dungeon/Tiles/tile_0096.png" id="2_omy1a"]
+[ext_resource type="Texture2D" uid="uid://dg5lv5v5n70ou" path="res://Assets/Sprites and stuff/kenney_tiny-dungeon/Tiles/tile_0106.png" id="3_k8xyk"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_0lrqx"]
+radius = 700.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_7vsvr"]
+radius = 1000.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ekuit"]
+radius = 1000.0
+
+[sub_resource type="Animation" id="Animation_ujuqv"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D/Hand/Sword:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="Animation" id="Animation_qgm4j"]
+resource_name = "swing_sword"
+length = 0.25
+step = 0.01
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D/Hand/Sword:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.1, 0.14),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [0.0, -0.785398, 0.785398, 0.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_2udxe"]
+_data = {
+"RESET": SubResource("Animation_ujuqv"),
+"swing_sword": SubResource("Animation_qgm4j")
+}
+
+[node name="Hero" type="CharacterBody2D" groups=["Hero"]]
+script = ExtResource("1_2mf74")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+scale = Vector2(5, 5)
+texture = ExtResource("2_omy1a")
+
+[node name="Hand" type="Node2D" parent="Sprite2D"]
+position = Vector2(5, 5)
+scale = Vector2(0.2, 0.2)
+
+[node name="Sword" type="Sprite2D" parent="Sprite2D/Hand"]
+texture_filter = 1
+scale = Vector2(3, 3)
+texture = ExtResource("3_k8xyk")
+offset = Vector2(0, -5)
+
+[node name="EnemyDetector" type="Area2D" parent="."]
+collision_layer = 3
+collision_mask = 3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EnemyDetector"]
+shape = SubResource("CircleShape2D_0lrqx")
+
+[node name="StructureDetector" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StructureDetector"]
+shape = SubResource("CircleShape2D_7vsvr")
+
+[node name="PlayerDetector" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerDetector"]
+shape = SubResource("CircleShape2D_ekuit")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_2udxe")
+}
+
+[connection signal="body_entered" from="EnemyDetector" to="." method="_on_enemy_detector_body_entered"]
+[connection signal="body_entered" from="StructureDetector" to="." method="_on_structure_detector_body_entered"]
+[connection signal="body_entered" from="PlayerDetector" to="." method="_on_player_detector_body_entered"]

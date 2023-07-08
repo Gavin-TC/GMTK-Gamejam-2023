@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://cl8vdgp0sii5f"
-path="res://.godot/imported/spider_icon3_selected.png-a03bf337f36d6a5de7997c56e33a2e52.ctex"
+path="res://.godot/imported/bat_icon3_selected.png-143e823657cd6e8f931eb1fd369ae397.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Sprites and stuff/spider_icon3_selected.png"
-dest_files=["res://.godot/imported/spider_icon3_selected.png-a03bf337f36d6a5de7997c56e33a2e52.ctex"]
+source_file="res://Assets/Sprites and stuff/bat_icon3_selected.png"
+dest_files=["res://.godot/imported/bat_icon3_selected.png-143e823657cd6e8f931eb1fd369ae397.ctex"]
 
 [params]
 

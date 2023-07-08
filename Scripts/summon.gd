@@ -8,8 +8,9 @@ class_name Summon
 @export var player_detector: Area2D
 @export var hero_detector: Area2D
 @export var animation_player: AnimationPlayer
-
-var speed = 50.0
+@export var summon_mana_decrement: int = 15
+@export var health = 50.0
+@export var speed = 50.0
 
 var close_distance = Vector2(randi_range(100, 125), randi_range(100, 125))
 
@@ -39,10 +40,15 @@ func _physics_process(delta):
 	move_and_slide()
 
 func handle_wander():
-	if player:
+	if player and not hero:
 		var distance_to_player = player.position - position
 	
 		if distance_to_player > close_distance or distance_to_player < -close_distance:
+			velocity.x = (player.position.x - position.x)
+			velocity.y = (player.position.y - position.y)
+	elif hero:
+		var distance_to_hero = hero.position - position
+		if distance_to_hero.length() > 25:
 			velocity.x = (player.position.x - position.x)
 			velocity.y = (player.position.y - position.y)
 
@@ -61,7 +67,7 @@ func kill():
 func _on_player_detector_body_entered(body):
 	if body.is_in_group("Player"):
 		player = body
-		player_detector.monitoring = false
+		player_detector.set_deferred("monitoring", false)
 
 func _on_hero_detector_body_entered(body):
 	if body.is_in_group("Hero"):

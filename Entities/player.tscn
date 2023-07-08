@@ -128,7 +128,6 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="TextureRect" type="TextureRect" parent="CanvasLayer/Control/VBoxContainer/VBoxContainer3/HBoxContainer/HBoxContainer2"]
-z_index = -5
 texture_filter = 1
 custom_minimum_size = Vector2(5, 0)
 layout_mode = 2
@@ -138,7 +137,6 @@ texture = ExtResource("2_ynumj")
 expand_mode = 4
 
 [node name="TextureRect2" type="TextureRect" parent="CanvasLayer/Control/VBoxContainer/VBoxContainer3/HBoxContainer/HBoxContainer2"]
-z_index = -5
 texture_filter = 1
 custom_minimum_size = Vector2(5, 0)
 layout_mode = 2
@@ -148,7 +146,6 @@ texture = ExtResource("3_060uu")
 expand_mode = 4
 
 [node name="TextureRect3" type="TextureRect" parent="CanvasLayer/Control/VBoxContainer/VBoxContainer3/HBoxContainer/HBoxContainer2"]
-z_index = -5
 texture_filter = 1
 custom_minimum_size = Vector2(5, 0)
 layout_mode = 2

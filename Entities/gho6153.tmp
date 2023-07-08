@@ -83,7 +83,6 @@ nav_agent = NodePath("NavigationAgent2D")
 player_detector = NodePath("PlayerDetector")
 hero_detector = NodePath("HeroDetector")
 animation_player = NodePath("AnimationPlayer")
-summon_mana_decrement = 20
 
 [node name="PlayerDetector" type="Area2D" parent="."]
 
