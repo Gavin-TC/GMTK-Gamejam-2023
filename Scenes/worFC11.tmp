@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3 uid="uid://cmby0olf535yj"]
+
+[ext_resource type="PackedScene" uid="uid://bv1o53k32t26p" path="res://Entities/player.tscn" id="1_lmexn"]
+
+[node name="world" type="Node2D"]
+
+[node name="Player" parent="." instance=ExtResource("1_lmexn")]
+
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_left = 137.0
+offset_top = 47.0
+offset_right = 177.0
+offset_bottom = 87.0

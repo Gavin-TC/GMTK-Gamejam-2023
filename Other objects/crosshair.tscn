@@ -1,0 +1,25 @@
+[gd_scene load_steps=6 format=3 uid="uid://bia5pbiuu5itn"]
+
+[ext_resource type="Shader" path="res://Scripts/Shaders/crosshair_shader.gdshader" id="1_0wvy1"]
+[ext_resource type="Script" path="res://Scripts/crosshair_controller.gd" id="1_hpp65"]
+[ext_resource type="Texture2D" uid="uid://l8sbf1nhrg61" path="res://Assets/Sprites and stuff/kenney_tiny-dungeon/Tiles/tile_0060.png" id="2_jqtm3"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_om8xb"]
+shader = ExtResource("1_0wvy1")
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_040n7"]
+radius = 6.00925
+
+[node name="crosshair" type="Sprite2D"]
+texture_filter = 1
+material = SubResource("ShaderMaterial_om8xb")
+scale = Vector2(3, 3)
+texture = ExtResource("2_jqtm3")
+script = ExtResource("1_hpp65")
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_040n7")

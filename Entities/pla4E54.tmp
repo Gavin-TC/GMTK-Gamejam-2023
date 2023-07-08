@@ -1,0 +1,28 @@
+[gd_scene load_steps=5 format=3 uid="uid://bv1o53k32t26p"]
+
+[ext_resource type="Script" path="res://Scripts/Player/player_controller.gd" id="1_4etcl"]
+[ext_resource type="Script" path="res://Scripts/camera_controller.gd" id="2_1nkwo"]
+[ext_resource type="Texture2D" uid="uid://dvfx4m34fu4tb" path="res://Assets/Sprites and stuff/kenney_tiny-dungeon/Tiles/tile_0084.png" id="2_tuimd"]
+[ext_resource type="PackedScene" uid="uid://bia5pbiuu5itn" path="res://Other objects/crosshair.tscn" id="4_n64dj"]
+
+[node name="Player" type="CharacterBody2D"]
+script = ExtResource("1_4etcl")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+scale = Vector2(5, 5)
+texture = ExtResource("2_tuimd")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(4, -40, 15, -35, 30, -25, 35, -20, 35, 15, 40, 15, 40, 35, 35, 40, -35, 40, -40, 35, -40, 10, -35, 10, -35, -30, -25, -40)
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(0.75, 0.75)
+position_smoothing_speed = 10.0
+drag_left_margin = 0.1
+drag_top_margin = 0.1
+drag_right_margin = 0.1
+drag_bottom_margin = 0.1
+script = ExtResource("2_1nkwo")
+
+[node name="crosshair" parent="." instance=ExtResource("4_n64dj")]

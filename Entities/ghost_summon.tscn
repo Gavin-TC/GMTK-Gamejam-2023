@@ -1,0 +1,92 @@
+[gd_scene load_steps=8 format=3 uid="uid://bv4vvjm042iee"]
+
+[ext_resource type="Script" path="res://Scripts/summon.gd" id="1_u6lbg"]
+[ext_resource type="Texture2D" uid="uid://blye5up8w8ryo" path="res://Assets/Sprites and stuff/kenney_tiny-dungeon/Tiles/tile_0108.png" id="2_ki0fq"]
+[ext_resource type="AudioStream" uid="uid://b4p2dsk400jlv" path="res://Assets/Audio/hitHurt.wav" id="3_y47k6"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_j3tse"]
+radius = 225.0
+
+[sub_resource type="Animation" id="Animation_jh80g"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_83edn"]
+resource_name = "bob_anim"
+length = 0.6
+loop_mode = 1
+step = 0.01
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.6),
+"transitions": PackedFloat32Array(1, 0.267943, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, -15), Vector2(0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_5vy3n"]
+_data = {
+"RESET": SubResource("Animation_jh80g"),
+"bob_anim": SubResource("Animation_83edn")
+}
+
+[node name="ghost_summon" type="CharacterBody2D" node_paths=PackedStringArray("sprite", "death_audio", "nav_agent", "player_detector", "hero_detector", "animation_player") groups=["Summon"]]
+collision_layer = 2
+collision_mask = 2
+script = ExtResource("1_u6lbg")
+sprite = NodePath("Sprite2D")
+death_audio = NodePath("death_audio")
+nav_agent = NodePath("NavigationAgent2D")
+player_detector = NodePath("PlayerDetector")
+hero_detector = NodePath("HeroDetector")
+animation_player = NodePath("AnimationPlayer")
+
+[node name="PlayerDetector" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerDetector"]
+shape = SubResource("CircleShape2D_j3tse")
+
+[node name="HeroDetector" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HeroDetector"]
+shape = SubResource("CircleShape2D_j3tse")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(15, -30, 25, -20, 30, -5, 35, 5, 35, 25, 25, 30, -25, 30, -35, 25, -35, 5, -30, -5, -25, -20, -15, -30)
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+scale = Vector2(5, 5)
+texture = ExtResource("2_ki0fq")
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+avoidance_enabled = true
+
+[node name="death_audio" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_y47k6")
+volume_db = -15.0
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_5vy3n")
+}
+
+[connection signal="body_entered" from="PlayerDetector" to="." method="_on_player_detector_body_entered"]
+[connection signal="body_entered" from="PlayerDetector" to="." method="_on_area_2d_body_entered"]
+[connection signal="body_entered" from="HeroDetector" to="." method="_on_hero_detector_body_entered"]
