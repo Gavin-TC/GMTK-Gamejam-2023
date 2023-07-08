@@ -2,7 +2,7 @@ extends CharacterBody2D
 
 @onready var ghost_summon = preload("res://Entities/ghost_summon.tscn")
 @onready var ghost2_summon = preload("res://Entities/ghost_2_summon.tscn")
-@onready var spider_summon = preload("")
+@onready var spider_summon = preload("res://Entities/bat_summon.tscn")
 
 @onready var player_sprite = $PlayerSprite
 @onready var footstep_player = $FootstepPlayer

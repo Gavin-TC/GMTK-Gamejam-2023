@@ -39,11 +39,12 @@ func _physics_process(delta):
 	move_and_slide()
 
 func handle_wander():
-	var distance_to_player = player.position - position
+	if player:
+		var distance_to_player = player.position - position
 	
-	if distance_to_player > close_distance or distance_to_player < -close_distance:
-		velocity.x = (player.position.x - position.x)
-		velocity.y = (player.position.y - position.y)
+		if distance_to_player > close_distance or distance_to_player < -close_distance:
+			velocity.x = (player.position.x - position.x)
+			velocity.y = (player.position.y - position.y)
 
 func _on_velocity_computed(velocity):
 	pass

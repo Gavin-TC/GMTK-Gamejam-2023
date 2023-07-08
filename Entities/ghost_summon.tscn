@@ -87,6 +87,6 @@ libraries = {
 "": SubResource("AnimationLibrary_5vy3n")
 }
 
-[connection signal="body_entered" from="PlayerDetector" to="." method="_on_player_detector_body_entered"]
 [connection signal="body_entered" from="PlayerDetector" to="." method="_on_area_2d_body_entered"]
+[connection signal="body_entered" from="PlayerDetector" to="." method="_on_player_detector_body_entered"]
 [connection signal="body_entered" from="HeroDetector" to="." method="_on_hero_detector_body_entered"]
