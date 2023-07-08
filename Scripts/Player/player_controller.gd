@@ -1,6 +1,8 @@
 extends CharacterBody2D
 
 @onready var ghost_summon = preload("res://Entities/ghost_summon.tscn")
+@onready var ghost2_summon = preload("res://Entities/ghost_2_summon.tscn")
+@onready var spider_summon = preload("")
 
 @onready var player_sprite = $PlayerSprite
 @onready var footstep_player = $FootstepPlayer
@@ -62,6 +64,7 @@ func _physics_process(delta):
 	handle_summon()
 	handle_summon_kill()
 	handle_entrance_pointer()
+	handle_summon_switch()
 	
 	velocity.normalized()
 	move_and_slide()
@@ -150,6 +153,12 @@ func handle_summon_kill():
 				kill_body == null
 
 func handle_entrance_pointer():
+	var hero_node = get_tree().get_first_node_in_group("Hero")
+	if not hero_node:
+		entrance_node = get_tree().get_first_node_in_group("EntranceNode")
+	else:
+		entrance_node = null
+	
 	if entrance_node:
 		var direction = entrance_node.position - position
 		var sprite_distance = entrance_node.position - entrance_pointer_sprite.global_position
@@ -162,6 +171,9 @@ func handle_entrance_pointer():
 	else:
 		print(entrance_node)
 		entrance_pointer_sprite.hide()
+
+func handle_summon_switch():
+	pass
 
 func _on_area_2d_body_entered(body):
 	print(body)

@@ -6,7 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://6g4tjcvh4g4" path="res://Assets/Sprites and stuff/ghost_icon1.png" id="2_ynumj"]
 [ext_resource type="Texture2D" uid="uid://bwvouix6lnctg" path="res://Assets/Sprites and stuff/ghost_icon2.png" id="3_060uu"]
 [ext_resource type="Texture2D" uid="uid://dlgp4bisaxqoo" path="res://Assets/Sprites and stuff/kenney_tiny-dungeon/Tiles/tile_0130.png" id="3_dgak6"]
-[ext_resource type="Texture2D" uid="uid://b1ptjj047dcwx" path="res://Assets/Sprites and stuff/spider_icon3.png" id="4_hgbc3"]
+[ext_resource type="Texture2D" uid="uid://b1ptjj047dcwx" path="res://Assets/Sprites and stuff/bat_icon3.png" id="4_stx2y"]
 [ext_resource type="AudioStream" uid="uid://s6rj2fmtghws" path="res://Assets/Audio/click_sound_footstep2.wav" id="5_gx4em"]
 [ext_resource type="AudioStream" uid="uid://br8aswmmbxs8i" path="res://Assets/Audio/kenney_impact-sounds/Audio/impactBell_heavy_001.ogg" id="5_kq16b"]
 [ext_resource type="Shader" path="res://Scripts/Shaders/crosshair_shader.gdshader" id="7_6scfa"]
@@ -154,7 +154,7 @@ custom_minimum_size = Vector2(5, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 8
-texture = ExtResource("4_hgbc3")
+texture = ExtResource("4_stx2y")
 expand_mode = 4
 
 [node name="HBoxContainer3" type="HBoxContainer" parent="CanvasLayer/Control/VBoxContainer/VBoxContainer3/HBoxContainer"]
