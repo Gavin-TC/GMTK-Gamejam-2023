@@ -3,7 +3,7 @@ class_name Summon
 # This class is for entities that the player summons.
 
 @export var sprite: Sprite2D
-@export var death_audio: AudioStreamPlayer2D
+@export var hit_audio: AudioStreamPlayer2D
 @export var nav_agent: NavigationAgent2D
 @export var player_detector: Area2D
 @export var hero_detector: Area2D
@@ -48,21 +48,31 @@ func handle_wander():
 			velocity.y = (player.position.y - position.y)
 	elif hero:
 		var distance_to_hero = hero.position - position
-		if distance_to_hero.length() > 25:
-			velocity.x = (player.position.x - position.x)
-			velocity.y = (player.position.y - position.y)
+		if distance_to_hero.length() > 100:
+			velocity.x = (hero.position.x - position.x)
+			velocity.y = (hero.position.y - position.y)
+		else:
+			velocity = Vector2.ZERO
 
 func _on_velocity_computed(velocity):
 	pass
 
 func kill():
-	if death_audio and can_die:
+	if hit_audio and can_die:
 		can_die = false
 		dying = true
 		
-		death_audio.pitch_scale = randf_range(0.9, 1.1)
-		if death_audio.playing == false:
-			death_audio.play()
+		hit_audio.pitch_scale = randf_range(0.9, 1.1)
+		if hit_audio.playing == false:
+			hit_audio.play()
+
+func take_damage(damage):
+	print("OWIE")
+	health -= damage
+	hit_audio.pitch_scale = randf_range(0.85, 1.15)
+	hit_audio.play()
+	if health <= 0:
+		kill()
 
 func _on_player_detector_body_entered(body):
 	if body.is_in_group("Player"):

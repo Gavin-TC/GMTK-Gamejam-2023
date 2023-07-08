@@ -206,6 +206,15 @@ func handle_entrance_pointer():
 	else:
 		entrance_pointer_sprite.hide()
 
+func kill():
+	queue_free()
+
+func take_damage(damage):
+	health -= damage
+	print(health)
+	if health <= 0:
+		kill()
+
 func _on_area_2d_body_entered(body):
 	print(body)
 	if body.is_in_group("Summon"):

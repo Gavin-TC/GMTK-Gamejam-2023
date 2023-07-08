@@ -32,7 +32,7 @@ func _physics_process(delta):
 "
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ln2nq"]
-radius = 225.0
+radius = 500.0
 
 [sub_resource type="Animation" id="Animation_jh80g"]
 length = 0.001
@@ -78,7 +78,7 @@ collision_layer = 2
 collision_mask = 2
 script = SubResource("GDScript_bn2pm")
 sprite = NodePath("Sprite2D")
-death_audio = NodePath("death_audio")
+death_audio = NodePath("hit_audio")
 nav_agent = NodePath("NavigationAgent2D")
 player_detector = NodePath("PlayerDetector")
 hero_detector = NodePath("HeroDetector")
@@ -106,7 +106,7 @@ texture = ExtResource("2_h4tju")
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
 avoidance_enabled = true
 
-[node name="death_audio" type="AudioStreamPlayer2D" parent="."]
+[node name="hit_audio" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("3_lbwlk")
 volume_db = -15.0
 

@@ -73,8 +73,7 @@ texture = ExtResource("3_k8xyk")
 offset = Vector2(0, -5)
 
 [node name="RayCast2D" type="RayCast2D" parent="Sprite2D/Hand"]
-target_position = Vector2(75, 0)
-hit_from_inside = true
+target_position = Vector2(50, 0)
 
 [node name="EnemyDetector" type="Area2D" parent="."]
 collision_layer = 3
