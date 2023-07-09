@@ -21,8 +21,7 @@ SceneTransition="*res://Scenes/scene_transition.tscn"
 
 [display]
 
-window/stretch/mode="viewport"
-window/stretch/aspect="ignore"
+window/stretch/mode="canvas_items"
 
 [editor_plugins]
 

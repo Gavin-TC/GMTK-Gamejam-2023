@@ -98,7 +98,7 @@ func _physics_process(delta):
 	if summon_mana < 100 and can_add and not Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
 		can_add = false
 		
-		summon_mana += 1
+		summon_mana += 2
 		print("added")
 		print(summon_mana)
 		
@@ -245,24 +245,27 @@ func handle_entrance_pointer():
 		entrance_pointer_sprite.hide()
 
 func kill():
-	if can_die:
-		can_die = false
-		dying = true
-		
-		death_audio.pitch_scale = randf_range(0.9, 1.1)
-		if death_audio.playing == false:
-			death_audio.play()
-		if death_audio.playing == true:
-			await death_audio.finished
-			queue_free()
-
-func take_damage(damage):
-	if not dying:
-		health -= damage
-		hit_audio.pitch_scale = randf_range(0.8, 1.2)
-		hit_audio.play()
-		if health <= 0:
-			kill()
+	if max_summons == 0:
+		#die
+		queue_free()
+#	if can_die:
+#		can_die = false
+#		dying = true
+#
+#		death_audio.pitch_scale = randf_range(0.9, 1.1)
+#		if death_audio.playing == false:
+#			death_audio.play()
+#		if death_audio.playing == true:
+#			await death_audio.finished
+#			queue_free()
+#
+#func take_damage(damage):
+#	if not dying:
+#		health -= damage
+#		hit_audio.pitch_scale = randf_range(0.8, 1.2)
+#		hit_audio.play()
+#		if health <= 0:
+#			kill()
 
 func _on_area_2d_body_entered(body):
 	print(body)

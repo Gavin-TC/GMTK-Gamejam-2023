@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://bv4vvjm042iee"]
+[gd_scene load_steps=9 format=3 uid="uid://bv4vvjm042iee"]
 
 [ext_resource type="Texture2D" uid="uid://blye5up8w8ryo" path="res://Assets/Sprites and stuff/kenney_tiny-dungeon/Tiles/tile_0108.png" id="2_ki0fq"]
 [ext_resource type="AudioStream" uid="uid://lls0sohw7w0x" path="res://Assets/Audio/explosion2.wav" id="3_q5ahg"]
@@ -22,6 +22,18 @@ tracks/0/keys = {
 "update": 0,
 "values": [Vector2(0, 0)]
 }
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
 
 [sub_resource type="Animation" id="Animation_83edn"]
 resource_name = "bob_anim"
@@ -41,24 +53,53 @@ tracks/0/keys = {
 "values": [Vector2(0, 0), Vector2(0, -15), Vector2(0, 0)]
 }
 
+[sub_resource type="Animation" id="Animation_wis4p"]
+resource_name = "attack"
+length = 0.6
+loop_mode = 1
+step = 0.01
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.45, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [0.0, -0.174533, -0.174533, 0.436332]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.45, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(-10, 2), Vector2(-10, 2), Vector2(0, 0)]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_5vy3n"]
 _data = {
 "RESET": SubResource("Animation_jh80g"),
+"attack": SubResource("Animation_wis4p"),
 "bob_anim": SubResource("Animation_83edn")
 }
 
-[node name="ghost_summon" type="CharacterBody2D" node_paths=PackedStringArray("sprite", "hit_audio", "death_audio", "nav_agent", "player_detector", "hero_detector", "animation_player") groups=["Summon"]]
+[node name="ghost_summon" type="CharacterBody2D" node_paths=PackedStringArray("sprite", "hit_audio", "death_audio", "animation_player") groups=["Summon"]]
 collision_layer = 2
 collision_mask = 2
 script = SubResource("GDScript_ghcax")
 sprite = NodePath("Sprite2D")
 hit_audio = NodePath("hit_audio")
 death_audio = NodePath("death_audio")
-nav_agent = NodePath("")
-player_detector = NodePath("")
-hero_detector = NodePath("")
 animation_player = NodePath("AnimationPlayer")
 summon_mana_decrement = 10
+damage = 15
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
 polygon = PackedVector2Array(15, -30, 25, -20, 30, -5, 35, 5, 35, 25, 25, 30, -25, 30, -35, 25, -35, 5, -30, -5, -25, -20, -15, -30)

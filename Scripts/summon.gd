@@ -6,19 +6,19 @@ class_name Summon
 @export var hit_audio: AudioStreamPlayer2D
 @export var death_audio: AudioStreamPlayer2D
 @export var animation_player: AnimationPlayer
-@export var summon_mana_decrement: int = 25
+@export var summon_mana_decrement= 25
 @export var health = 50.0
 @export var speed = 50.0
+@export var damage: int
 
 @onready var player: CharacterBody2D = get_tree().get_first_node_in_group("Player")
 @onready var hero: CharacterBody2D = get_tree().get_first_node_in_group("Hero")
 
 var close_distance = Vector2(randi_range(100, 125), randi_range(100, 125))
 
-var damage = 1
-
 var can_die = true
 var dying = false
+var can_attack = true
 
 func _ready():
 	randomize()
@@ -30,6 +30,7 @@ func _physics_process(delta):
 		animation_player.play("bob_anim")
 	
 	handle_wander()
+	hero = get_tree().get_first_node_in_group("Hero")
 	
 	if dying:
 		sprite.modulate.a = move_toward(sprite.modulate.a, 0, 0.15)
@@ -52,6 +53,14 @@ func handle_wander():
 			velocity.y = (hero.position.y - position.y)
 		else:
 			velocity = Vector2.ZERO
+			attack(hero)
+
+func attack(target):
+	if can_attack:
+		can_attack = false
+		hero.take_damage(damage)
+		await get_tree().create_timer(0.5).timeout
+		can_attack = true
 
 func _on_velocity_computed(velocity):
 	pass

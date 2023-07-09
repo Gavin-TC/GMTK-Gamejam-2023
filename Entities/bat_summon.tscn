@@ -44,17 +44,16 @@ _data = {
 "bob_anim": SubResource("Animation_83edn")
 }
 
-[node name="bat_summon" type="CharacterBody2D" node_paths=PackedStringArray("sprite", "hit_audio", "death_audio", "nav_agent", "player_detector", "hero_detector", "animation_player") groups=["Summon"]]
+[node name="bat_summon" type="CharacterBody2D" node_paths=PackedStringArray("sprite", "hit_audio", "death_audio", "animation_player") groups=["Summon"]]
 collision_layer = 2
 collision_mask = 2
 script = ExtResource("1_tdg74")
 sprite = NodePath("Sprite2D")
 hit_audio = NodePath("hit_audio")
 death_audio = NodePath("death_audio")
-nav_agent = NodePath("")
-player_detector = NodePath("")
-hero_detector = NodePath("")
 animation_player = NodePath("AnimationPlayer")
+summon_mana_decrement = 30
+damage = 40
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
 polygon = PackedVector2Array(-20, -35, 20, -35, 30, -25, 35, 0, 40, 5, 40, 35, 35, 40, -35, 40, -40, 35, -40, 5, -35, 0, -30, -25)
