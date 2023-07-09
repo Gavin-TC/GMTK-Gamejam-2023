@@ -37,13 +37,15 @@ var damage = 15
 
 var can_print = true
 var can_attack = true
+var not_generated = true
+var state_changed = false
 
 func _ready():
 	var rand = RandomNumberGenerator.new()
 	rand.randomize()
 	rand_num = rand.randf()
 	healthbar.max_value = health
-	nav_agent.path_desired_distance = 75.0
+	nav_agent.path_desired_distance = 50.0
 	nav_agent.target_desired_distance = 50.0
 
 func _physics_process(delta):
@@ -58,9 +60,9 @@ func _physics_process(delta):
 			attack()
 		NOT_ATTACK:
 			pass
-	
+			
 	if structure:
-		if enemy:
+		if enemy and not state_changed:
 			state = TARGET_ENEMY
 		else:
 			state = TARGET_STRUCTURE
@@ -69,13 +71,23 @@ func _physics_process(delta):
 	
 	match state:
 		TARGET_STRUCTURE:
-			if structure and not enemy:
-				move(structure, delta, false)
+			print("attacking structure")
+			if state_changed and structure or structure and not enemy:
+				move(structure[0], delta, false)
 			else:
 				state = TARGET_ENEMY
 		TARGET_ENEMY:
 			if is_instance_valid(enemy[0]) and not enemy[0].dying:
-				move(enemy, delta, true)
+#				if not_generated:
+#					not_generated = false
+#					var rng = RandomNumberGenerator.new()
+#					var rand_num = rng.randi_range(1, 3)
+#					print(rand_num)
+#					state_changed = true
+#					if rand_num == 1:
+#						print("going back to attacK")
+#						state = TARGET_STRUCTURE
+				move(enemy[0], delta, true)
 			elif not enemy and structure:
 				state = TARGET_STRUCTURE
 		WIN:
@@ -87,11 +99,10 @@ func move(target, delta, aggressive:bool = false):
 		if nav_agent.is_navigation_finished() and nav_agent.target_position:
 			attack_state = ATTACK
 			nav_agent.target_position = Vector2(0, 0)
-			print("finished")
 		else:
 			attack_state = NOT_ATTACK
 		
-		nav_agent.target_position = target[0].position
+		nav_agent.target_position = target.position
 		
 		var current_position = global_position
 		var next_path_position = nav_agent.get_next_path_position()
@@ -128,16 +139,16 @@ func move(target, delta, aggressive:bool = false):
 			velocity = Vector2.ZERO
 		
 		move_and_slide()
-	elif target:		
+	elif target:
 		if nav_agent.is_navigation_finished() and nav_agent.target_position:
 			nav_agent.target_position = Vector2.ZERO
-			print("navigation finished")
 			attack_state = ATTACK
 		else:
+			state_changed = false
 			attack_state = NOT_ATTACK
 			
 		if not nav_agent.target_position:
-			nav_agent.target_position = target[0].position
+			nav_agent.target_position = target.position
 		
 		var next_path_position = nav_agent.get_next_path_position()
 		var current_position = global_position

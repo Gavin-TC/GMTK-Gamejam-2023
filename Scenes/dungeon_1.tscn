@@ -471,18 +471,27 @@ layer_0/tile_data = PackedInt32Array(-65539, 65536, 0, -131069, 196608, 0, -6553
 [node name="EntranceNode" type="Node2D" parent="." groups=["EntranceNode"]]
 position = Vector2(1760, 368)
 
-[node name="Structure" parent="." instance=ExtResource("3_8bouv")]
-position = Vector2(1759, 857)
-
 [node name="HeroSpawn" type="Node2D" parent="."]
 position = Vector2(1760, 519)
+
+[node name="WinNode" type="Node2D" parent="." groups=["WinNode"]]
+position = Vector2(38, -30)
+
+[node name="Structure" parent="." instance=ExtResource("3_8bouv")]
+position = Vector2(1759, 857)
 
 [node name="Structure2" parent="." instance=ExtResource("3_8bouv")]
 position = Vector2(976, 930)
 
+[node name="Structure3" parent="." instance=ExtResource("3_8bouv")]
+position = Vector2(2, 872)
+
+[node name="Structure4" parent="." instance=ExtResource("3_8bouv")]
+position = Vector2(-864, 1503)
+
+[node name="Structure5" parent="." instance=ExtResource("3_8bouv")]
+position = Vector2(-870, 280)
+
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
 top_level = true
 navigation_polygon = SubResource("NavigationPolygon_2iy8f")
-
-[node name="WinNode" type="Node2D" parent="." groups=["WinNode"]]
-position = Vector2(38, -30)

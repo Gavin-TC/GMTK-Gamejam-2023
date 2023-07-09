@@ -99,8 +99,6 @@ func _physics_process(delta):
 		can_add = false
 		
 		summon_mana += 1
-		print("added")
-		print(summon_mana)
 		
 		await get_tree().create_timer(0.35).timeout
 		can_add = true
@@ -154,8 +152,8 @@ func handle_summon():
 		selected_summon = 1
 	if Input.is_action_just_pressed("two"):
 		selected_summon = 2
-	if Input.is_action_just_pressed("three"):
-		selected_summon = 3
+#	if Input.is_action_just_pressed("three"):
+#		selected_summon = 3
 	
 	match selected_summon:
 		1:
