@@ -1,7 +1,7 @@
 extends StaticBody2D
 class_name Structure
 
-@export var health: int = 50
+@export var health: int = 100
 @export var healthbar: TextureProgressBar
 @export var death_audio: AudioStreamPlayer2D
 @export var hit_audio: AudioStreamPlayer2D

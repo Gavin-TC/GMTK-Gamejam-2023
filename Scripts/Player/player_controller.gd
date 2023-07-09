@@ -98,7 +98,7 @@ func _physics_process(delta):
 	if summon_mana < 100 and can_add and not Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
 		can_add = false
 		
-		summon_mana += 1
+		summon_mana += 3
 		
 		await get_tree().create_timer(0.35).timeout
 		can_add = true

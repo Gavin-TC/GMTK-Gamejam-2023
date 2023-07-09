@@ -71,7 +71,6 @@ func _physics_process(delta):
 	
 	match state:
 		TARGET_STRUCTURE:
-			print("attacking structure")
 			if state_changed and structure or structure and not enemy:
 				move(structure[0], delta, false)
 			else:

@@ -99,4 +99,3 @@ texture_progress = ExtResource("7_a0p74")
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
 target_desired_distance = 50.0
-debug_enabled = true

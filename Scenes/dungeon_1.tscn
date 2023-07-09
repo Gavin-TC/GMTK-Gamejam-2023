@@ -458,7 +458,7 @@ autowrap_mode = 2
 uppercase = true
 
 [node name="Player" parent="." instance=ExtResource("1_wnre7")]
-position = Vector2(1099, 690)
+position = Vector2(38, 1)
 metadata/_edit_horizontal_guides_ = [524.0, 523.0]
 
 [node name="TileMap" type="TileMap" parent="."]
@@ -477,6 +477,10 @@ position = Vector2(1760, 519)
 [node name="WinNode" type="Node2D" parent="." groups=["WinNode"]]
 position = Vector2(38, -30)
 
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
+top_level = true
+navigation_polygon = SubResource("NavigationPolygon_2iy8f")
+
 [node name="Structure" parent="." instance=ExtResource("3_8bouv")]
 position = Vector2(1759, 857)
 
@@ -484,14 +488,10 @@ position = Vector2(1759, 857)
 position = Vector2(976, 930)
 
 [node name="Structure3" parent="." instance=ExtResource("3_8bouv")]
-position = Vector2(2, 872)
+position = Vector2(15, 851)
 
 [node name="Structure4" parent="." instance=ExtResource("3_8bouv")]
-position = Vector2(-864, 1503)
+position = Vector2(-857, 1491)
 
 [node name="Structure5" parent="." instance=ExtResource("3_8bouv")]
-position = Vector2(-870, 280)
-
-[node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
-top_level = true
-navigation_polygon = SubResource("NavigationPolygon_2iy8f")
+position = Vector2(-859, 274)

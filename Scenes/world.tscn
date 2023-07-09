@@ -1,9 +1,11 @@
-[gd_scene load_steps=10 format=3 uid="uid://cmby0olf535yj"]
+[gd_scene load_steps=12 format=3 uid="uid://cmby0olf535yj"]
 
 [ext_resource type="Texture2D" uid="uid://32wollu4phvq" path="res://Assets/Sprites and stuff/kenney_tiny-dungeon/Tilemap/tilemap_packed.png" id="1_80ip7"]
+[ext_resource type="Script" path="res://Scripts/world.gd" id="1_dxai6"]
 [ext_resource type="PackedScene" uid="uid://bv1o53k32t26p" path="res://Entities/player.tscn" id="1_lmexn"]
 [ext_resource type="Script" path="res://Scripts/Door.gd" id="2_67ap2"]
 [ext_resource type="Texture2D" uid="uid://buuu24wia68v8" path="res://Assets/Sprites and stuff/kenney_input-prompts-16/Tiles (White)/tile_0087.png" id="3_absfv"]
+[ext_resource type="FontFile" uid="uid://c6k3w1574l4qh" path="res://Assets/Fonts/MinecraftRegular-Bmg3.otf" id="5_83uqs"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_t3b42"]
 texture = ExtResource("1_80ip7")
@@ -829,6 +831,7 @@ physics_layer_0/collision_layer = 1
 sources/1 = SubResource("TileSetAtlasSource_s6uj3")
 
 [node name="world" type="Node2D"]
+script = ExtResource("1_dxai6")
 
 [node name="Walls" type="TileMap" parent="."]
 texture_filter = 1
@@ -871,6 +874,23 @@ offset_top = -362.0
 offset_right = 297.0
 offset_bottom = -322.0
 color = Color(0.466667, 0.227451, 0.219608, 1)
+
+[node name="SummonsLabel" type="Label" parent="."]
+texture_filter = 1
+offset_left = 382.0
+offset_top = -67.0
+offset_right = 1028.0
+offset_bottom = -15.0
+size_flags_horizontal = 6
+size_flags_vertical = 0
+theme_override_colors/font_outline_color = Color(0.301961, 0.188235, 0.235294, 1)
+theme_override_constants/outline_size = 15
+theme_override_fonts/font = ExtResource("5_83uqs")
+theme_override_font_sizes/font_size = 32
+text = "interact with this door!"
+horizontal_alignment = 1
+vertical_alignment = 1
+uppercase = true
 
 [connection signal="body_entered" from="Walls/Door" to="Walls/Door" method="_on_body_entered"]
 [connection signal="body_exited" from="Walls/Door" to="Walls/Door" method="_on_body_exited"]
