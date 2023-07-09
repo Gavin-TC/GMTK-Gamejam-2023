@@ -246,8 +246,7 @@ func handle_entrance_pointer():
 
 func kill():
 	if max_summons == 0:
-		#die
-		queue_free()
+		print("YOU'RE DEAD")
 #	if can_die:
 #		can_die = false
 #		dying = true

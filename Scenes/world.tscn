@@ -839,6 +839,7 @@ layer_0/tile_data = PackedInt32Array(-131075, 131073, 0, -196608, 131073, 0, -19
 
 [node name="Door" type="Area2D" parent="Walls"]
 scale = Vector2(0.2, 0.2)
+collision_mask = 7
 script = ExtResource("2_67ap2")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/Door" groups=["Door"]]

@@ -5,6 +5,7 @@ extends Node2D
 
 var can_start = true
 var hero_alive = false
+var can_switch = true
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -16,14 +17,16 @@ func _process(delta):
 		can_start = false
 		self.add_child(hero_instance)
 		hero_alive = true
-		$CanvasLayer.hide()
 	
 	if hero_alive:
 		var hero_node = get_tree().get_nodes_in_group("Hero")
 		if hero_node:
 			var distance = hero_node[0].position - win_node.position
 			
+			print(distance.length())
+			
 			if not is_instance_valid(hero_node[0]):
 				print("YOU WON!")
-			if distance.length() < 50:
+			if distance.length() < 50 and can_switch:
+				can_switch = false
 				SceneTransition.change_scene("res://Scenes/end_game.tscn")

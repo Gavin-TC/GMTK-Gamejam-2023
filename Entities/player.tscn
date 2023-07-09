@@ -89,7 +89,7 @@ _data = {
 }
 
 [node name="Player" type="CharacterBody2D" groups=["Player"]]
-collision_layer = 14
+collision_layer = 12
 script = ExtResource("1_4etcl")
 metadata/_edit_horizontal_guides_ = [64.0, 64.0, 584.0, 648.0, 581.0, 68.0]
 
@@ -213,6 +213,7 @@ size_flags_horizontal = 3
 
 [node name="ManaBar" type="TextureProgressBar" parent="CanvasLayer/Control"]
 texture_filter = 1
+layout_mode = 0
 offset_left = 128.0
 offset_top = 68.0
 offset_right = 641.0

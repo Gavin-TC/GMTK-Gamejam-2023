@@ -424,9 +424,9 @@ physics_layer_0/collision_layer = 1
 sources/0 = SubResource("TileSetAtlasSource_0ofq6")
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_2iy8f"]
-vertices = PackedVector2Array(143, 554, 303, 551, 240, 685, 1570, 617, 1533, 478, 1990, 490, 1994, 951, 1682, 942, 1575, 654, 1116, 678, 1189, 1037, 755, 1034, 750, 746, 759, 585, -224, 727, -259, 681, -293, 490, 131, 495, 218, 952, 1123, 630, 747, 696, 231, 750, -595, 725, -721, 1579, -1107, 1586, -1108, 169, -572, 170, -582, 689, -225, 950)
-polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2), PackedInt32Array(3, 4, 5, 6, 7), PackedInt32Array(3, 7, 8), PackedInt32Array(9, 10, 11, 12, 13), PackedInt32Array(14, 15, 16, 17, 0, 18), PackedInt32Array(3, 8, 9, 19), PackedInt32Array(13, 19, 9), PackedInt32Array(20, 13, 12), PackedInt32Array(20, 12, 21, 2), PackedInt32Array(22, 23, 24, 25, 26), PackedInt32Array(22, 26, 27), PackedInt32Array(14, 22, 27, 15), PackedInt32Array(18, 28, 14), PackedInt32Array(21, 18, 0), PackedInt32Array(21, 0, 2)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(-293, 490, 131, 495, 143, 554, 303, 551, 240, 685, 747, 696, 759, 585, 1123, 630, 1570, 617, 1533, 478, 1990, 490, 1994, 951, 1682, 942, 1575, 654, 1116, 678, 1189, 1037, 755, 1034, 750, 746, 231, 750, 218, 952, -225, 950, -224, 727, -595, 725, -721, 1579, -1107, 1586, -1108, 169, -572, 170, -582, 689, -259, 681)])
+vertices = PackedVector2Array(-17, -63, 80, -40, -65, 71, -89, 53, -111, 540, -76, 537, 143, 554, 303, 551, 248, 681, 230, 721, 1565, 586, 1533, 478, 1990, 490, 1662, 643, 1105, 653, 1129, 1043, 810, 1029, 805, 726, 1083, 581, 1994, 951, 1682, 942, 1687, 760, 759, 585, 758, 694, -721, 1579, -1107, 1586, -1108, 169, -646, 721, -572, 170, -582, 689, -224, 727, -259, 681, 218, 952, -225, 950)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3), PackedInt32Array(4, 3, 2, 5), PackedInt32Array(6, 7, 8, 9), PackedInt32Array(10, 11, 12, 13), PackedInt32Array(14, 15, 16, 17, 18), PackedInt32Array(12, 19, 20, 21), PackedInt32Array(12, 21, 13), PackedInt32Array(10, 13, 14, 18), PackedInt32Array(22, 18, 17, 23), PackedInt32Array(23, 17, 9, 8), PackedInt32Array(24, 25, 26, 27), PackedInt32Array(27, 26, 28, 29), PackedInt32Array(30, 27, 29, 31), PackedInt32Array(9, 32, 33, 30, 4, 5, 6), PackedInt32Array(30, 31, 4)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-111, 540, -89, 53, -17, -63, 80, -40, -65, 71, -76, 537, 143, 554, 303, 551, 248, 681, 758, 694, 759, 585, 1083, 581, 1565, 586, 1533, 478, 1990, 490, 1994, 951, 1682, 942, 1687, 760, 1662, 643, 1105, 653, 1129, 1043, 810, 1029, 805, 726, 230, 721, 218, 952, -225, 950, -224, 727, -646, 721, -721, 1579, -1107, 1586, -1108, 169, -572, 170, -582, 689, -259, 681)])
 
 [node name="dungeon1" type="Node2D"]
 script = ExtResource("1_a6fd3")
@@ -480,14 +480,9 @@ position = Vector2(1760, 519)
 [node name="Structure2" parent="." instance=ExtResource("3_8bouv")]
 position = Vector2(976, 930)
 
-[node name="Structure3" parent="." instance=ExtResource("3_8bouv")]
-position = Vector2(36, 806)
-
-[node name="Structure4" parent="." instance=ExtResource("3_8bouv")]
-position = Vector2(-864, 1394)
-
-[node name="Structure5" parent="." instance=ExtResource("3_8bouv")]
-
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
 top_level = true
 navigation_polygon = SubResource("NavigationPolygon_2iy8f")
+
+[node name="WinNode" type="Node2D" parent="." groups=["WinNode"]]
+position = Vector2(38, -30)

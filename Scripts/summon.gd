@@ -63,6 +63,7 @@ func attack(target):
 	if can_attack:
 		can_attack = false
 		hero.take_damage(damage)
+		animation_player.play("attack")
 		await get_tree().create_timer(0.5).timeout
 		can_attack = true
 
@@ -96,13 +97,3 @@ func take_damage(damage):
 		hit_audio.play()
 		if health <= 0:
 			kill()
-
-func _on_player_detector_body_entered(body):
-#	if body.is_in_group("Player"):
-#		player = body
-#		player_detector.set_deferred("monitoring", false)
-	pass
-
-func _on_hero_detector_body_entered(body):
-	if body.is_in_group("Hero"):
-		hero = body
