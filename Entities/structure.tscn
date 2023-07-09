@@ -1,17 +1,19 @@
-[gd_scene load_steps=6 format=3 uid="uid://3htl0aku1a6v"]
+[gd_scene load_steps=7 format=3 uid="uid://3htl0aku1a6v"]
 
 [ext_resource type="Texture2D" uid="uid://dopty2bxpnpir" path="res://Assets/Sprites and stuff/kenney_tiny-dungeon/Tiles/tile_0065.png" id="1_4o1kk"]
 [ext_resource type="Texture2D" uid="uid://xwss3ii8w1do" path="res://Assets/Sprites and stuff/healthbar_background.png" id="1_avakc"]
 [ext_resource type="Script" path="res://Scripts/structure1.gd" id="1_r34ke"]
 [ext_resource type="Texture2D" uid="uid://dg4k4dtjv6ium" path="res://Assets/Sprites and stuff/healthbar_progress.png" id="2_422im"]
+[ext_resource type="AudioStream" uid="uid://lotrqcwbwnvc" path="res://Assets/Audio/explosion.wav" id="5_t3ktu"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_uakah"]
 size = Vector2(90, 90)
 
-[node name="Structure" type="StaticBody2D" node_paths=PackedStringArray("healthbar") groups=["Structure"]]
+[node name="Structure" type="StaticBody2D" node_paths=PackedStringArray("healthbar", "audio_player") groups=["Structure"]]
 collision_layer = 4
 script = ExtResource("1_r34ke")
 healthbar = NodePath("Healthbar")
+audio_player = NodePath("AudioStreamPlayer2D")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_uakah")
@@ -31,3 +33,7 @@ modulate = Color(0.243137, 0.482353, 0.701961, 1)
 texture_filter = 1
 scale = Vector2(5, 5)
 texture = ExtResource("1_4o1kk")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("5_t3ktu")
+volume_db = -15.0

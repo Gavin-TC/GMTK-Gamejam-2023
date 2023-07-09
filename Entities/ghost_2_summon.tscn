@@ -6,30 +6,6 @@
 
 [sub_resource type="GDScript" id="GDScript_bn2pm"]
 script/source = "extends Summon
-
-func _physics_process(delta):
-	velocity = Vector2.ZERO
-	
-	if not animation_player.is_playing():
-		animation_player.play(\"bob_anim\")
-	
-	handle_wander()
-	
-	if velocity.x < 0:
-		sprite.scale.x = -5
-	else:
-		sprite.scale.x = 5
-	
-	if dying:
-		sprite.modulate.a = move_toward(sprite.modulate.a, 0, 0.15)
-		if sprite.modulate.a == 0:
-			queue_free()
-	move_and_slide()
-
-#	if 1 == 5:
-#		player_sprite.scale.x = scaleX
-#	else:
-#		player_sprite.scale.x = -scaleX
 "
 
 [sub_resource type="Animation" id="Animation_jh80g"]

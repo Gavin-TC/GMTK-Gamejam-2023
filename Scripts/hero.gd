@@ -5,6 +5,7 @@ extends CharacterBody2D
 @onready var hit_audio = $hit_audio
 @onready var death_audio = $death_audio
 @onready var healthbar = $HealthBar
+@onready var nav_agent = $NavigationAgent2D
 
 enum {
 	TARGET_ENEMY,
@@ -14,6 +15,7 @@ enum {
 }
 var state = TARGET_STRUCTURE
 var attack_state = NOT_ATTACK
+var movement_target: Vector2
 
 @onready var structure = get_tree().get_nodes_in_group("Structure")
 @onready var enemy = get_tree().get_nodes_in_group("Summon")
@@ -37,6 +39,8 @@ func _ready():
 	rand.randomize()
 	rand_num = rand.randf()
 	healthbar.max_value = health
+	nav_agent.path_desired_distance = 50.0
+	nav_agent.target_desired_distance = 50.0
 
 func _physics_process(delta):
 	structure = get_tree().get_nodes_in_group("Structure")
@@ -44,7 +48,6 @@ func _physics_process(delta):
 	
 	handle_sprite_direction()
 	detect_summon()
-	
 	healthbar.value = health
 	
 	match attack_state:
@@ -52,11 +55,6 @@ func _physics_process(delta):
 			attack()
 		NOT_ATTACK:
 			pass
-#
-#	print()
-#	print(structure)
-#	print(enemy)
-#	print()
 	
 	if enemy:
 		state = TARGET_ENEMY
@@ -66,48 +64,75 @@ func _physics_process(delta):
 	match state:
 		TARGET_STRUCTURE:
 			if structure and not enemy:
-				print("structure")
 				move(structure, delta, false)
 			else:
 				state = TARGET_ENEMY
 		TARGET_ENEMY:
-			if is_instance_valid(enemy) and not enemy.dying:
-				print("enemy")
+			if is_instance_valid(enemy[0]) and not enemy[0].dying:
 				move(enemy, delta, true)
 			elif not enemy and structure:
 				state = TARGET_STRUCTURE
 
 func move(target, delta, aggressive:bool = false):
 	if aggressive:
-		var target_circle = get_circle_position(target[0])
-		var global_target = target[0]
-		
-		var direction = (target_circle - global_position).normalized()
-		var desired_velocity = direction * speed
-		var steering = (desired_velocity - velocity) * delta * 2.5
-		
-		var destination_reached = false
-		var distance = target_circle - global_position
-		
-		if distance.length() < 2:
-			destination_reached = true
-		
-		if not destination_reached:
-			velocity = desired_velocity
-			attack_state = NOT_ATTACK
-		else:
+		if nav_agent.is_navigation_finished() and nav_agent.target_position:
 			attack_state = ATTACK
+			nav_agent.target_position = Vector2(0, 0)
+			print("finished")
+		else:
+			attack_state = NOT_ATTACK
 		
-		# debug
-		$DestinationRect.global_position = target_circle
-			
-		velocity.normalized()
+		nav_agent.target_position = target[0].position
+		
+		var current_position = global_position
+		var next_path_position = nav_agent.get_next_path_position()
+		var new_velocity = next_path_position - current_position
+		new_velocity = new_velocity.normalized()
+		new_velocity = new_velocity * speed
+		velocity = new_velocity
 		move_and_slide()
+#		var target_circle = get_circle_position(target[0])
+#		var global_target = target[0]
+#
+#		var direction = (target_circle - global_position).normalized()
+#		var desired_velocity = direction * speed
+#		var steering = (desired_velocity - velocity) * delta * 2.5
+#
+#		var destination_reached = false
+#		var distance = target_circle - global_position
+#
+#		if distance.length() < 2:
+#			destination_reached = true
+#
+#		if not destination_reached:
+#			velocity = desired_velocity
+#			attack_state = NOT_ATTACK
+#		# BASICALLY, IF ATTACKING STRUCTURE
+#		else:
+#			attack_state = ATTACK
+#
+#		# debug
+#		$DestinationRect.global_position = target_circle
+#
+#		velocity.normalized()
+#		velocity = desired_velocity
+#		move_and_slide()
 	elif target:
-		var direction = (target[0].position - global_position).normalized()
-		var desired_velocity = direction * speed
-		var steering = (desired_velocity - velocity) * delta * 2.5
-		print(move_and_slide())
+		if nav_agent.is_navigation_finished() and nav_agent.target_position:
+			attack_state = ATTACK
+			nav_agent.target_position = Vector2(0, 0)
+		else:
+			attack_state = NOT_ATTACK
+			
+		if not nav_agent.target_position:
+			nav_agent.target_position = target[0].position
+		
+		var current_position = global_position
+		var next_path_position = nav_agent.get_next_path_position()
+		var new_velocity = next_path_position - current_position
+		new_velocity = new_velocity.normalized()
+		new_velocity = new_velocity * speed
+		velocity = new_velocity
 		move_and_slide()
 
 func get_circle_position(target: CharacterBody2D):
@@ -115,6 +140,7 @@ func get_circle_position(target: CharacterBody2D):
 		enemy = null
 		global_target = null
 		return Vector2(0, 0)
+	
 	var kill_circle_centre = target.global_position
 	var direction = target.position - global_position
 	var radius = -100
@@ -127,20 +153,21 @@ func get_circle_position(target: CharacterBody2D):
 func attack():
 	if not animation_player.is_playing():
 		animation_player.play("swing_sword")
-		if targetted == "ENEMY" and is_instance_valid(enemy):
-			enemy.take_damage(damage)
+		if state == TARGET_ENEMY:
+			enemy[0].take_damage(damage)
+		elif state == TARGET_STRUCTURE:
+			structure[0].take_damage(damage)
 
 func detect_summon():
-	var summons = []
-	for nodes in get_tree().get_nodes_in_group("Summon"):
-		print(nodes)
+#	var summons = []
+#	for nodes in get_tree().get_nodes_in_group("Summon"):
+#		print(nodes)
+	pass
 
 func handle_sprite_direction():
 	if velocity.x < 0:
-		print("right")
 		sprite.scale.x = 5
 	else:
-		print("left")
 		sprite.scale.x = -5
 
 func kill():

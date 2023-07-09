@@ -73,7 +73,6 @@ libraries = {
 }
 
 [node name="DestinationRect" type="ColorRect" parent="."]
-visible = false
 offset_right = 6.0
 offset_bottom = 6.0
 
@@ -97,3 +96,6 @@ value = 100.0
 nine_patch_stretch = true
 texture_under = ExtResource("6_ex0pc")
 texture_progress = ExtResource("7_a0p74")
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+debug_enabled = true

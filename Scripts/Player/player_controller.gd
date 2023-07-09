@@ -98,11 +98,11 @@ func _physics_process(delta):
 	if summon_mana < 100 and can_add and not Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
 		can_add = false
 		
-		summon_mana += 2
+		summon_mana += 1
 		print("added")
 		print(summon_mana)
 		
-		await get_tree().create_timer(0.25).timeout
+		await get_tree().create_timer(0.35).timeout
 		can_add = true
 	
 	healthbar.value = health

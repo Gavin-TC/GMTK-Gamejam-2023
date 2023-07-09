@@ -11,6 +11,8 @@ class_name Summon
 @export var speed = 50.0
 @export var damage: int
 
+@onready var mana_potion = preload("res://Entities/mana_potion.tscn")
+
 @onready var player: CharacterBody2D = get_tree().get_first_node_in_group("Player")
 @onready var hero: CharacterBody2D = get_tree().get_first_node_in_group("Hero")
 
@@ -32,11 +34,13 @@ func _physics_process(delta):
 	handle_wander()
 	hero = get_tree().get_first_node_in_group("Hero")
 	
+	if velocity.x < 0:
+		sprite.scale.x = -5
+	else:
+		sprite.scale.x = 5
+	
 	if dying:
 		sprite.modulate.a = move_toward(sprite.modulate.a, 0, 0.15)
-		if sprite.modulate.a == 0:
-			pass
-			#queue_free()
 	move_and_slide()
 
 func handle_wander():
@@ -76,6 +80,13 @@ func kill():
 		if death_audio.playing == true:
 			await death_audio.finished
 			player.summons_out.erase(self)
+			
+			var rand_num = randi_range(0, 3)
+			if rand_num == 1:
+				var mana_potion_instance = mana_potion.instantiate()
+				mana_potion_instance.position = global_position
+				get_tree().get_root().add_child(mana_potion_instance)
+			
 			queue_free()
 
 func take_damage(damage):
