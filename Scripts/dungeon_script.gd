@@ -10,8 +10,6 @@ var can_go = true
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	
-	
 	if Input.is_action_just_pressed("ui_accept") and can_start:
 		can_start = false
 		var hero_instance: CharacterBody2D = hero.instantiate()
@@ -44,4 +42,4 @@ func _process(delta):
 				if distance.length() < 50:
 					if can_go:
 						can_go = false
-						SceneTransition.change_scene("res://Scenes/end_game.tscn")
+						SceneTransition.change_scene("res://Scenes/dungeon_2.tscn")

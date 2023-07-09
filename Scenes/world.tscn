@@ -866,6 +866,7 @@ format = 2
 layer_0/tile_data = PackedInt32Array(4, 1, 6, -65532, 65537, 6, 65540, 65537, 6)
 
 [node name="Player" parent="." instance=ExtResource("1_lmexn")]
+position = Vector2(83, -81)
 metadata/_edit_horizontal_guides_ = [524.0, 523.0]
 
 [node name="ColorRect" type="ColorRect" parent="."]
